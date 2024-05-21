@@ -1,4 +1,8 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+
+final logoGreen = Color(0xff1dab61);
 
 void main() {
   runApp(const MyApp());
@@ -30,6 +34,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int currPage = 0;
 
+  final pageController = PageController(initialPage: 0);
+
   List<NavigationDestination> bottomNavDestinations() {
     return const [
       NavigationDestination(
@@ -56,12 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget body(int currentPage) {
     return [
-      Container(
-        color: Colors.red[100],
-        constraints: BoxConstraints.expand(),
-        alignment: Alignment.center,
-        child: Text('Chats'),
-      ),
+      ChatsBody(),
       Container(
         color: Colors.blue[100],
         constraints: BoxConstraints.expand(),
@@ -86,20 +87,132 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('WhatsApp'),
-      ),
       bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (i) {
-          setState(() {
-            currPage = i;
-          });
+        indicatorColor: logoGreen.withOpacity(0.24),
+        onDestinationSelected: (newIndex) {
+          pageController.jumpToPage(newIndex);
         },
         selectedIndex: currPage,
         destinations: bottomNavDestinations(),
       ),
-      body: body(currPage),
+      body: PageView(
+        controller: pageController,
+        onPageChanged: (newPageIndex) {
+          setState(() {
+            currPage = newPageIndex;
+          });
+        },
+        children: [
+          ChatsBody(),
+          Container(
+            color: Colors.blue[100],
+            constraints: BoxConstraints.expand(),
+            alignment: Alignment.center,
+            child: Text('Updates'),
+          ),
+          Container(
+            color: Colors.green[100],
+            constraints: BoxConstraints.expand(),
+            alignment: Alignment.center,
+            child: Text('Communities'),
+          ),
+          Container(
+            color: Colors.orange[100],
+            constraints: BoxConstraints.expand(),
+            alignment: Alignment.center,
+            child: Text('Calls'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ArchivedChatsButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.green[100],
+      height: 72,
+      child: Row(
+        children: [
+          Expanded(
+              flex: 1,
+              child: Container(
+                color: Colors.purple,
+                child: Icon(Icons.archive_outlined),
+              )),
+          Expanded(
+              flex: 4,
+              child: Container(
+                color: Colors.yellow,
+                child: Text('Archived'),
+              )),
+        ],
+      ),
+    );
+  }
+}
+
+class ChatsBody extends StatelessWidget {
+
+  static const appBarBackgroundColor = Colors.white;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.red[100],
+      constraints: BoxConstraints.expand(),
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: Text('WhatsApp'),
+            floating: true,
+            backgroundColor: appBarBackgroundColor,
+            surfaceTintColor: appBarBackgroundColor,
+          ),
+          MyDummyTile(Colors.green),
+          MyDummyTile(Colors.yellow),
+          MyDummyTile(Colors.indigo),
+          MyDummyTile(Colors.orange),
+          MyDummyTile(Colors.purple),
+          MyDummyTile(Colors.grey),
+          MyDummyTile(Colors.brown),
+          MyDummyTile(Colors.green),
+          MyDummyTile(Colors.yellow),
+          MyDummyTile(Colors.indigo),
+          MyDummyTile(Colors.orange),
+          MyDummyTile(Colors.purple),
+          MyDummyTile(Colors.grey),
+          MyDummyTile(Colors.brown),
+          MyDummyTile(Colors.green),
+          MyDummyTile(Colors.yellow),
+          MyDummyTile(Colors.indigo),
+          MyDummyTile(Colors.orange),
+          MyDummyTile(Colors.purple),
+          MyDummyTile(Colors.grey),
+          MyDummyTile(Colors.brown),
+        ],
+      ),
+    );
+  }
+}
+
+class MyDummyTile extends StatelessWidget {
+
+  MyDummyTile(this.color);
+
+  Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Container(
+        height: 84,
+        color: color,
+        alignment: Alignment.center,
+        child: Text('bla'),
+      ),
     );
   }
 }
