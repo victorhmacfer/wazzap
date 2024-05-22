@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 final logoGreen = Color(0xff1dab61);
 
+final anotherGreen = Color(0xff1bd741);
+
 void main() {
   runApp(const MyApp());
 }
@@ -88,7 +90,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: NavigationBar(
-        indicatorColor: logoGreen.withOpacity(0.24),
+        elevation: 4,
+        backgroundColor: Colors.white,
+        indicatorColor: anotherGreen.withOpacity(0.25),
         onDestinationSelected: (newIndex) {
           pageController.jumpToPage(newIndex);
         },
@@ -133,22 +137,22 @@ class ArchivedChatsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
-        color: Colors.green[100],
-        height: 48,
+        color: Colors.white,
+        padding: EdgeInsets.only(left: 18),
         child: Row(
           children: [
-            Expanded(
-                flex: 1,
-                child: Container(
-                  color: Colors.purple,
-                  child: Icon(Icons.archive_outlined),
-                )),
-            Expanded(
-                flex: 4,
-                child: Container(
-                  color: Colors.yellow,
-                  child: Text('Archived'),
-                )),
+            Container(
+              // color: Colors.blue[100],
+              height: 48,
+              width: 48,
+              alignment: Alignment.center,
+              child: Icon(Icons.archive_outlined),
+            ),
+            SizedBox(width: 16),
+            Container(
+              // color: Colors.yellow,
+              child: Text('Archived'),
+            ),
           ],
         ),
       ),
@@ -185,22 +189,18 @@ class ChatFilterTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
-        // color: Colors.pinkAccent[100],
+        color: Colors.white,
+        padding: EdgeInsets.only(left: 18),
         height: 64,
         alignment: Alignment.centerLeft,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             ChatFilterChipButton('All'),
-
-            SizedBox(width: 8),
-
+            SizedBox(width: 6),
             ChatFilterChipButton('Unread'),
-
-            SizedBox(width: 8),
-
+            SizedBox(width: 6),
             ChatFilterChipButton('Groups'),
-            
           ],
         ),
       ),
@@ -219,34 +219,46 @@ class ChatsBody extends StatelessWidget {
       child: CustomScrollView(
         slivers: [
           SliverAppBar(
-            title: Text('WhatsApp'),
+            title: Text(
+              'WhatsApp',
+              style: TextStyle(color: logoGreen, fontWeight: FontWeight.w600),
+            ),
+            shape: ContinuousRectangleBorder(
+              side: BorderSide(
+                color: Colors.grey[300]!,
+                width: 0.0,
+              ),
+            ),
             floating: true,
             backgroundColor: appBarBackgroundColor,
             surfaceTintColor: appBarBackgroundColor,
+            actions: [
+              IconButton(
+                  onPressed: () {}, icon: Icon(Icons.camera_alt_outlined)),
+              IconButton(onPressed: () {}, icon: Icon(Icons.search_rounded)),
+              IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_rounded)),
+            ],
           ),
           ChatFilterTile(),
           ArchivedChatsButton(),
-          MyDummyTile(Colors.grey),
-          MyDummyTile(Colors.yellow),
-          MyDummyTile(Colors.indigo),
-          MyDummyTile(Colors.orange),
-          MyDummyTile(Colors.purple),
-          MyDummyTile(Colors.grey),
-          MyDummyTile(Colors.brown),
-          MyDummyTile(Colors.green),
-          MyDummyTile(Colors.yellow),
-          MyDummyTile(Colors.indigo),
-          MyDummyTile(Colors.orange),
-          MyDummyTile(Colors.purple),
-          MyDummyTile(Colors.grey),
-          MyDummyTile(Colors.brown),
-          MyDummyTile(Colors.green),
-          MyDummyTile(Colors.yellow),
-          MyDummyTile(Colors.indigo),
-          MyDummyTile(Colors.orange),
-          MyDummyTile(Colors.purple),
-          MyDummyTile(Colors.grey),
-          MyDummyTile(Colors.brown),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
+          MyDummyTile(Colors.white),
         ],
       ),
     );
@@ -262,10 +274,58 @@ class MyDummyTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
-        height: 84,
+        // height: 84,
+        padding: EdgeInsets.only(left: 18, top: 14, bottom: 14, right: 16),
         color: color,
-        alignment: Alignment.center,
-        child: Text('bla'),
+        child: Row(
+          children: [
+            Container(
+              height: 48,
+              width: 48,
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                // color: Colors.red[100],
+                shape: BoxShape.circle,
+              ),
+              child: Image.asset(
+                'assets/images/mulanzinha.jpg',
+              ),
+            ),
+            SizedBox(width: 16),
+            Expanded(
+              child: Container(
+                // color: Colors.green[100],
+                child: Column(
+                  children: [
+                    Container(
+                      // color: Colors.purple[100],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Adilson'),
+                          Text('11:56'),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      // color: Colors.indigo[100],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Muito bem!'),
+                          Icon(
+                            Icons.pin_drop,
+                            size: 16,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
