@@ -4,7 +4,17 @@ import 'package:flutter/material.dart';
 
 final logoGreen = Color(0xff1dab61);
 
+const darkGreen = Color(0xff11613e);
+
 final anotherGreen = Color(0xff1bd741);
+
+final navBarIndicatorGreen = Color(0xffd8fdd2);
+
+const lighterBlack = Color(0xff303030);
+
+const filterChipGrey = Color(0xfff6f5f3);
+
+const darkGrey = Color(0xff647681);
 
 void main() {
   runApp(const MyApp());
@@ -41,22 +51,25 @@ class _MyHomePageState extends State<MyHomePage> {
   List<NavigationDestination> bottomNavDestinations() {
     return const [
       NavigationDestination(
-        icon: Icon(Icons.chat_outlined),
-        selectedIcon: Icon(Icons.chat),
+        icon: Icon(Icons.chat_outlined, color: lighterBlack),
+        selectedIcon: Icon(
+          Icons.chat,
+          color: darkGreen,
+        ),
         label: 'Chats',
       ),
       NavigationDestination(
-        icon: Icon(Icons.update),
+        icon: Icon(Icons.update, color: lighterBlack),
         label: 'Updates',
       ),
       NavigationDestination(
-        icon: Icon(Icons.groups_outlined),
-        selectedIcon: Icon(Icons.groups),
+        icon: Icon(Icons.groups_outlined, color: lighterBlack),
+        selectedIcon: Icon(Icons.groups, color: darkGreen),
         label: 'Communities',
       ),
       NavigationDestination(
-        icon: Icon(Icons.phone_outlined),
-        selectedIcon: Icon(Icons.phone),
+        icon: Icon(Icons.phone_outlined, color: lighterBlack),
+        selectedIcon: Icon(Icons.phone, color: darkGreen),
         label: 'Calls',
       ),
     ];
@@ -88,45 +101,59 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: NavigationBar(
-        elevation: 4,
-        backgroundColor: Colors.white,
-        indicatorColor: anotherGreen.withOpacity(0.25),
-        onDestinationSelected: (newIndex) {
-          pageController.jumpToPage(newIndex);
-        },
-        selectedIndex: currPage,
-        destinations: bottomNavDestinations(),
-      ),
-      body: PageView(
-        controller: pageController,
-        onPageChanged: (newPageIndex) {
-          setState(() {
-            currPage = newPageIndex;
-          });
-        },
-        children: [
-          ChatsBody(),
-          Container(
-            color: Colors.blue[100],
-            constraints: BoxConstraints.expand(),
-            alignment: Alignment.center,
-            child: Text('Updates'),
-          ),
-          Container(
-            color: Colors.green[100],
-            constraints: BoxConstraints.expand(),
-            alignment: Alignment.center,
-            child: Text('Communities'),
-          ),
-          Container(
-            color: Colors.orange[100],
-            constraints: BoxConstraints.expand(),
-            alignment: Alignment.center,
-            child: Text('Calls'),
-          ),
-        ],
+    return NavigationBarTheme(
+      data: NavigationBarTheme.of(context).copyWith(
+          labelTextStyle: WidgetStateTextStyle.resolveWith((states) {
+        if (states.any((s) {
+          return s == WidgetState.selected;
+        })) {
+          return TextStyle(
+              fontSize: 14, color: lighterBlack, fontWeight: FontWeight.w600);
+        } else {
+          return TextStyle(
+              fontSize: 14, color: lighterBlack, fontWeight: FontWeight.w400);
+        }
+      })),
+      child: Scaffold(
+        bottomNavigationBar: NavigationBar(
+          elevation: 4,
+          backgroundColor: Colors.white,
+          indicatorColor: navBarIndicatorGreen,
+          onDestinationSelected: (newIndex) {
+            pageController.jumpToPage(newIndex);
+          },
+          selectedIndex: currPage,
+          destinations: bottomNavDestinations(),
+        ),
+        body: PageView(
+          controller: pageController,
+          onPageChanged: (newPageIndex) {
+            setState(() {
+              currPage = newPageIndex;
+            });
+          },
+          children: [
+            ChatsBody(),
+            Container(
+              color: Colors.blue[100],
+              constraints: BoxConstraints.expand(),
+              alignment: Alignment.center,
+              child: Text('Updates'),
+            ),
+            Container(
+              color: Colors.green[100],
+              constraints: BoxConstraints.expand(),
+              alignment: Alignment.center,
+              child: Text('Communities'),
+            ),
+            Container(
+              color: Colors.orange[100],
+              constraints: BoxConstraints.expand(),
+              alignment: Alignment.center,
+              child: Text('Calls'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -146,12 +173,19 @@ class ArchivedChatsButton extends StatelessWidget {
               height: 48,
               width: 48,
               alignment: Alignment.center,
-              child: Icon(Icons.archive_outlined),
+              child: Icon(
+                Icons.archive_outlined,
+                color: lighterBlack,
+              ),
             ),
             SizedBox(width: 16),
             Container(
               // color: Colors.yellow,
-              child: Text('Archived'),
+              child: Text(
+                'Archived',
+                style:
+                    TextStyle(color: lighterBlack, fontSize: 15, fontWeight: FontWeight.w600),
+              ),
             ),
           ],
         ),
@@ -161,23 +195,25 @@ class ArchivedChatsButton extends StatelessWidget {
 }
 
 class ChatFilterChipButton extends StatelessWidget {
-  const ChatFilterChipButton(this.text);
+  const ChatFilterChipButton(this.text, {this.selected = false});
 
   final String text;
+
+  final bool selected;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.grey[350]!.withOpacity(0.24),
+        color: selected ? navBarIndicatorGreen : filterChipGrey,
         borderRadius: BorderRadius.circular(30),
       ),
       child: Text(
         text,
         style: TextStyle(
           fontWeight: FontWeight.w500,
-          color: Colors.grey[600],
+          color: selected ? darkGreen : darkGrey,
         ),
       ),
     );
@@ -196,7 +232,7 @@ class ChatFilterTile extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ChatFilterChipButton('All'),
+            ChatFilterChipButton('All', selected: true),
             SizedBox(width: 6),
             ChatFilterChipButton('Unread'),
             SizedBox(width: 6),
@@ -302,8 +338,12 @@ class MyDummyTile extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Adilson'),
-                          Text('11:56'),
+                          Text('Adilson',
+                              style: TextStyle(
+                                  color: lighterBlack,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600)),
+                          Text('09:08', style: TextStyle(fontSize: 11, color: darkGrey)),
                         ],
                       ),
                     ),
@@ -312,10 +352,11 @@ class MyDummyTile extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Muito bem!'),
+                          Text('Muito bem!', style: TextStyle(color: darkGrey)),
                           Icon(
                             Icons.pin_drop,
                             size: 16,
+                            color: darkGrey,
                           ),
                         ],
                       ),
