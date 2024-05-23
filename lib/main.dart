@@ -1,14 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:wazzap/archived_chats.dart';
 
-final logoGreen = Color(0xff1dab61);
+const logoGreen = Color(0xff1dab61);
 
 const darkGreen = Color(0xff11613e);
 
-final anotherGreen = Color(0xff1bd741);
+const anotherGreen = Color(0xff1bd741);
 
-final navBarIndicatorGreen = Color(0xffd8fdd2);
+const navBarIndicatorGreen = Color(0xffd8fdd2);
 
 const lighterBlack = Color(0xff303030);
 
@@ -163,31 +164,41 @@ class ArchivedChatsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Container(
+      child: Material(
         color: Colors.white,
-        padding: EdgeInsets.only(left: 18),
-        child: Row(
-          children: [
-            Container(
-              // color: Colors.blue[100],
-              height: 48,
-              width: 48,
-              alignment: Alignment.center,
-              child: Icon(
-                Icons.archive_outlined,
-                color: lighterBlack,
-              ),
+        child: InkWell(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+              return ArchivedChatsScreen();
+
+            }));
+          },
+          child: Container(
+            padding: EdgeInsets.only(left: 18),
+            child: Row(
+              children: [
+                Container(
+                  // color: Colors.blue[100],
+                  height: 48,
+                  width: 48,
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.archive_outlined,
+                    color: lighterBlack,
+                  ),
+                ),
+                SizedBox(width: 16),
+                Container(
+                  // color: Colors.yellow,
+                  child: Text(
+                    'Archived',
+                    style:
+                        TextStyle(color: lighterBlack, fontSize: 15, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(width: 16),
-            Container(
-              // color: Colors.yellow,
-              child: Text(
-                'Archived',
-                style:
-                    TextStyle(color: lighterBlack, fontSize: 15, fontWeight: FontWeight.w600),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -337,7 +348,7 @@ class MyDummyTile extends StatelessWidget {
                       // color: Colors.purple[100],
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: const [
                           Text('Adilson',
                               style: TextStyle(
                                   color: lighterBlack,
@@ -351,7 +362,7 @@ class MyDummyTile extends StatelessWidget {
                       // color: Colors.indigo[100],
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: const [
                           Text('Muito bem!', style: TextStyle(color: darkGrey)),
                           Icon(
                             Icons.pin_drop,
