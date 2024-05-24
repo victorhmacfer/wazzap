@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:wazzap/archived_chats.dart';
+import 'package:wazzap/conversation.dart';
 
 const logoGreen = Color(0xff1dab61);
 
@@ -170,7 +171,6 @@ class ArchivedChatsButton extends StatelessWidget {
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (ctx) {
               return ArchivedChatsScreen();
-
             }));
           },
           child: Container(
@@ -192,8 +192,10 @@ class ArchivedChatsButton extends StatelessWidget {
                   // color: Colors.yellow,
                   child: Text(
                     'Archived',
-                    style:
-                        TextStyle(color: lighterBlack, fontSize: 15, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                        color: lighterBlack,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600),
                   ),
                 ),
               ],
@@ -288,24 +290,27 @@ class ChatsBody extends StatelessWidget {
           ),
           ChatFilterTile(),
           ArchivedChatsButton(),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
-          MyDummyTile(Colors.white),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
+          MyDummyTile(),
         ],
       ),
     );
@@ -313,70 +318,78 @@ class ChatsBody extends StatelessWidget {
 }
 
 class MyDummyTile extends StatelessWidget {
-  MyDummyTile(this.color);
-
-  Color color;
-
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Container(
-        // height: 84,
-        padding: EdgeInsets.only(left: 18, top: 14, bottom: 14, right: 16),
-        color: color,
-        child: Row(
-          children: [
-            Container(
-              height: 48,
-              width: 48,
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                // color: Colors.red[100],
-                shape: BoxShape.circle,
-              ),
-              child: Image.asset(
-                'assets/images/mulanzinha.jpg',
-              ),
-            ),
-            SizedBox(width: 16),
-            Expanded(
-              child: Container(
-                // color: Colors.green[100],
-                child: Column(
-                  children: [
-                    Container(
-                      // color: Colors.purple[100],
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text('Adilson',
-                              style: TextStyle(
-                                  color: lighterBlack,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600)),
-                          Text('09:08', style: TextStyle(fontSize: 11, color: darkGrey)),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      // color: Colors.indigo[100],
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text('Muito bem!', style: TextStyle(color: darkGrey)),
-                          Icon(
-                            Icons.pin_drop,
-                            size: 16,
-                            color: darkGrey,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+      child: Material(
+        color: Colors.white,
+        child: InkWell(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+              return ConversationScreen();
+            }));
+          },
+          child: Container(
+            // height: 84,
+            padding: EdgeInsets.only(left: 18, top: 14, bottom: 14, right: 16),
+            child: Row(
+              children: [
+                Container(
+                  height: 48,
+                  width: 48,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    // color: Colors.red[100],
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.asset(
+                    'assets/images/mulanzinha.jpg',
+                  ),
                 ),
-              ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: Container(
+                    // color: Colors.green[100],
+                    child: Column(
+                      children: [
+                        Container(
+                          // color: Colors.purple[100],
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Text('Adilson',
+                                  style: TextStyle(
+                                      color: lighterBlack,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600)),
+                              Text('09:08',
+                                  style:
+                                      TextStyle(fontSize: 11, color: darkGrey)),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          // color: Colors.indigo[100],
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Text('Muito bem!',
+                                  style: TextStyle(color: darkGrey)),
+                              Icon(
+                                Icons.pin_drop,
+                                size: 16,
+                                color: darkGrey,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
