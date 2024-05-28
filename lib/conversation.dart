@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:wazzap/main.dart';
 
 class ConversationScreen extends StatelessWidget {
   @override
@@ -62,58 +64,195 @@ class ConversationScreen extends StatelessWidget {
   }
 }
 
-class _MyBottomSheet extends StatelessWidget {
+class _MyBottomSheet extends StatefulWidget {
+  @override
+  State<_MyBottomSheet> createState() => _MyBottomSheetState();
+}
+
+class _MyBottomSheetState extends State<_MyBottomSheet> {
+  bool isTyping = false;
+
+  Widget? widgetTrailingChatInputField;
+
+  Widget? widgetInGreenButton;
+
+  final myController = TextEditingController();
+
+  Widget _threeWidgets() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+            visualDensity: VisualDensity.compact,
+            onPressed: () {},
+            icon: Icon(Icons.attach_file_rounded)),
+        IconButton(
+            visualDensity: VisualDensity.compact,
+            onPressed: () {},
+            icon: Icon(Icons.add_circle_outline_rounded)),
+        IconButton(
+            visualDensity: VisualDensity.compact,
+            onPressed: () {},
+            icon: Icon(Icons.camera_alt_outlined)),
+      ],
+    );
+  }
+
+  Widget _oneWidget() {
+    return IconButton(
+        visualDensity: VisualDensity.compact,
+        onPressed: () {},
+        icon: Icon(Icons.attach_file_rounded));
+  }
+
+  Widget micIcon() {
+    return Icon(
+      key: ValueKey<int>(0),
+      Icons.mic,
+      color: Colors.white,
+    );
+  }
+
+  Widget sendIcon() {
+    return Icon(
+      key: ValueKey<int>(1),
+      Icons.send,
+      color: Colors.white,
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    widgetTrailingChatInputField = _threeWidgets();
+    widgetInGreenButton = micIcon();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.green[100],
+      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
       constraints: BoxConstraints(maxHeight: 150),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Expanded(child: _ChatInputField()),
-          Container(
-            height: 56,
-            color: Colors.green,
-            width: 48,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ChatInputField extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.orange[100], borderRadius: BorderRadius.circular(40)),
-      child: Row(
-        children: [
-          Container(
-            // color: Colors.purple[100],
-            child: IconButton(
-              visualDensity: VisualDensity.compact,
-              onPressed: () {},
-              icon: Icon(Icons.mood),
-            ),
-          ),
           Expanded(
-            child: Container(
-              // width: 150,
-              color: Colors.blue[100],
-              child: TextField(
-                maxLines: null,
-              ),
+              child: Container(
+            decoration: BoxDecoration(
+                color: Colors.orange[100],
+                borderRadius: BorderRadius.circular(24)),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  // color: Colors.purple[100],
+                  child: IconButton(
+                    visualDensity: VisualDensity.compact,
+                    onPressed: () {},
+                    icon: Icon(Icons.mood),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    color: Colors.blue[100],
+                    child: TextField(
+                      controller: myController,
+                      onChanged: (newText) {
+                        if (newText.isEmpty) {
+                          setState(() {
+                            isTyping = false;
+                            // widgetTrailingChatInputField = _threeWidgets();
+
+                            widgetInGreenButton = micIcon();
+                          });
+
+                          isTyping = false;
+                        } else if (newText.length == 1) {
+                          setState(() {
+                            isTyping = true;
+                            // widgetTrailingChatInputField = _oneWidget();
+                            widgetInGreenButton = sendIcon();
+                          });
+                        }
+                      },
+                      maxLines: null,
+                      decoration: InputDecoration(hintText: 'Message'),
+                    ),
+                  ),
+                ),
+                AnimatedSwitcher(
+                  duration: Duration(milliseconds: 200),
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
+                    return ScaleTransition(scale: animation, child: child);
+                  },
+                  child: widgetTrailingChatInputField,
+                ),
+              ],
+            ),
+          )),
+          SizedBox(width: 4),
+          Container(
+            height: 48,
+            width: 48,
+            decoration: BoxDecoration(color: logoGreen, shape: BoxShape.circle),
+            child: AnimatedSwitcher(
+              duration: Duration(milliseconds: 200),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return ScaleTransition(scale: animation, child: child);
+              },
+              child: widgetInGreenButton,
             ),
           ),
-
-          IconButton(visualDensity: VisualDensity.compact, onPressed: () {}, icon: Icon(Icons.attach_file_rounded)),
-          IconButton(visualDensity: VisualDensity.compact, onPressed: () {}, icon: Icon(Icons.add_circle_outline_rounded)),
-          IconButton(visualDensity: VisualDensity.compact, onPressed: () {}, icon: Icon(Icons.camera_alt_outlined)),
         ],
       ),
     );
   }
 }
+
+// class _ChatInputField extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       decoration: BoxDecoration(
+//           color: Colors.orange[100], borderRadius: BorderRadius.circular(24)),
+//       child: Row(
+//         crossAxisAlignment: CrossAxisAlignment.end,
+//         children: [
+//           Container(
+//             // color: Colors.purple[100],
+//             child: IconButton(
+//               visualDensity: VisualDensity.compact,
+//               onPressed: () {},
+//               icon: Icon(Icons.mood),
+//             ),
+//           ),
+//           Expanded(
+//             child: Container(
+//               // width: 150,
+//               // alignment: Alignment.center,
+//               color: Colors.blue[100],
+//               child: TextField(
+//                 maxLines: null,
+//                 decoration: InputDecoration(hintText: 'Message'),
+//               ),
+//             ),
+//           ),
+//           IconButton(
+//               visualDensity: VisualDensity.compact,
+//               onPressed: () {},
+//               icon: Icon(Icons.attach_file_rounded)),
+//           IconButton(
+//               visualDensity: VisualDensity.compact,
+//               onPressed: () {},
+//               icon: Icon(Icons.add_circle_outline_rounded)),
+//           IconButton(
+//               visualDensity: VisualDensity.compact,
+//               onPressed: () {},
+//               icon: Icon(Icons.camera_alt_outlined)),
+//         ],
+//       ),
+//     );
+//   }
+// }
